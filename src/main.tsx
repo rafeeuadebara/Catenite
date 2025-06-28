@@ -9,10 +9,6 @@ createRoot(document.getElementById('root')!).render(
    <BoardProvider>
       <App />
    </BoardProvider>
-  </StrictMode>,
+  </StrictMode>
 )
 
-
-
-
-// https://codesandbox.io/p/sandbox/react-k6lun

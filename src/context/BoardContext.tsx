@@ -50,7 +50,7 @@ const defaultBoardContext: BoardContextType = {
   editingTaskId: "editing task"
 };
 
-// 3. Create the context
+// 3. the context
 export const BoardContext = createContext<BoardContextType>(defaultBoardContext);
 
 // 4. Provider component

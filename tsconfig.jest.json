@@ -1,22 +1,18 @@
 // tsconfig.jest.json
 {
   "compilerOptions": {
-    // Feature parity with your app, but in CommonJS mode
     "target": "ES2020",
     "module": "CommonJS",
 
-    // <-- THIS is what you were missing in practice
     "jsx": "react-jsx",
 
-    // Allow `import React from 'react'`
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
-    // Let TS down-compile ESM imports into require()
+
     "moduleResolution": "node",
     "verbatimModuleSyntax": false,
-
-    // Optional “strict” hygiene + noEmit so TS doesn’t actually write files
+    
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true

@@ -6,8 +6,6 @@ describe('Board', () => {
 
     test('initializes board to match 5 columns', () => {
 
-        // render(React.createElement(Board));
-        // renaming the Board.test.ts to Board.test.tsx made the  render(<Board />) worked
 
         render(<Board />)
 
@@ -24,8 +22,6 @@ describe('Board', () => {
           expect(screen.getByText(title)).toBeInTheDocument();
         });
 
-
-        // const headers = screen.getAllByRole('heading', { level: 2 });
 
         const headers = screen.getAllByRole('heading', { level: 2 });
         expect(headers).toHaveLength(5);

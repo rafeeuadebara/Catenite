@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <div>tttt</div>
+      <div>The Board</div>
       <TaskForm />
       <Board />
     </>

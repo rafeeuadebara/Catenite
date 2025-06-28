@@ -5,11 +5,16 @@ import { useBoard, BoardProvider } from '../../context/BoardContext';
 describe('BoardContext', () => {
   beforeEach(() => {
     localStorage.clear();
-    global.crypto = {
-      randomUUID: () => '123e4567-e89b-12d3-a456-426614174000',
-      subtle: {} as Crypto['subtle'],
-      getRandomValues: <T extends ArrayBufferView | null>(array: T): T => array,
-    };
+    
+   
+    Object.defineProperty(window, 'crypto', {
+      value: {
+        randomUUID: () => '123e4567-e89b-12d3-a456-426614174000',
+        subtle: {},
+        getRandomValues: () => {},
+      },
+      writable: true
+    });
   });
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (
