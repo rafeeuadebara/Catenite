@@ -142,3 +142,5 @@ export function Column({ mainTitle }: ColumnProps): JSX.Element {
 
 
  
+
+

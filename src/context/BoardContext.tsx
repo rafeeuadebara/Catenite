@@ -1,4 +1,4 @@
-import React, { createContext, useState, type ReactNode, useContext } from 'react';
+import React, { createContext, useState, type ReactNode, useContext, useCallback, useMemo } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 
@@ -63,37 +63,51 @@ export const BoardProvider: React.FC<BoardProviderProps> = ({ children }) => {
   const [editing, setEditing] = useState<boolean>(false)
   const [editingTaskId, setEditingTaskId] = useState<string|null>(null);
 
-  
-  const addTask = (taskData: Omit<Task, 'id' | 'status'>) => {
-    const newTask: Task = {
-      ...taskData,
-      id: crypto.randomUUID(),
-      status: 'Backlog',        
-    };
-    setTasks([...tasks, newTask]);
-  };
 
+ 
 
+    const addTask = useCallback((taskData: Omit<Task, 'id' | 'status'>) => {
+    setTasks(prevTasks => [
+      ...prevTasks,
+      { ...taskData, id: crypto.randomUUID(), status: 'Backlog' }
+    ]);
+  }, [setTasks]);
 
-  const startEditing = (task: Task) => {
+  const startEditing = useCallback((task: Task) => {
     setEditing(true);
     setEditingTaskId(task.id);
-  };
+  }, [setEditing, setEditingTaskId]);
 
-
-  const editTask = (updated: Task) => {
-    setTasks(tasks.map(t => t.id === updated.id ? updated : t));
+  const editTask = useCallback((updated: Task) => {
+    setTasks(prevTasks =>
+      prevTasks.map(t => t.id === updated.id ? updated : t)
+    );
     setEditing(false);
     setEditingTaskId(null);
-  };
+  }, [setTasks, setEditing, setEditingTaskId]);
 
-  const deleteTask = (taskData: Task) => {
-    setTasks(tasks.filter(t => t.id !== taskData.id))
-  }
+  const deleteTask = useCallback((taskData: Task) => {
+    setTasks(prevTasks =>
+      prevTasks.filter(t => t.id !== taskData.id)
+    );
+  }, [setTasks]);
+
+
+
+   const contextValue = useMemo<BoardContextType>(() => ({
+    tasks,
+    setTasks,
+    addTask,
+    editTask,
+    deleteTask,
+    editing,
+    startEditing,
+    editingTaskId,
+  }), [tasks, editing, editingTaskId, addTask, editTask, deleteTask, startEditing]);
  
 
   return (
-    <BoardContext.Provider value={{ tasks, setTasks, addTask, editTask, deleteTask, startEditing, editing, editingTaskId }}>
+    <BoardContext.Provider value={contextValue}>
       {children}
     </BoardContext.Provider>
   );
